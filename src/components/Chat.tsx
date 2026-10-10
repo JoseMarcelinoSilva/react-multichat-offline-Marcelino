@@ -1,6 +1,8 @@
+import { useState } from 'react'
 import { useChatStore } from '../stores/chatStore'
 import ChatInput from './ChatInput'
 import MessageList from './MessageList'
+import MobileMenuButton from './MobileMenuButton'
 import Sidebar from './Sidebar'
 
 function useActiveConversation() {
@@ -11,12 +13,17 @@ function useActiveConversation() {
 
 export default function Chat() {
   const activeConversation = useActiveConversation()
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false)
 
   return (
     <div className="flex h-dvh bg-stone-200">
-      <Sidebar />
-      <main className="flex min-w-0 flex-1 flex-col">
-        <div className="mx-auto flex h-full w-full max-w-2xl flex-col">
+      <MobileMenuButton
+        isOpen={isSidebarOpen}
+        onToggle={() => setIsSidebarOpen((open) => !open)}
+      />
+      <Sidebar isOpen={isSidebarOpen} onClose={() => setIsSidebarOpen(false)} />
+      <main className="flex min-w-0 flex-1 flex-col pt-14 md:pt-0">
+        <div className="mx-auto flex h-full min-h-0 w-full max-w-2xl flex-col">
           <MessageList messages={activeConversation?.messages ?? null} />
           <ChatInput disabled={!activeConversation} />
         </div>
