@@ -28,15 +28,17 @@ function TrashIcon() {
 export default function SidebarItem({ id, isActive, onSelect, onDelete }: SidebarItemProps) {
   return (
     <li
-      className={`flex items-center gap-2 rounded-lg ${
-        isActive ? 'bg-stone-200 font-medium text-stone-900' : 'text-stone-700 hover:bg-stone-100'
+      className={`flex items-center gap-2 rounded-lg border-l-4 transition-colors ${
+        isActive
+          ? 'border-stone-800 bg-stone-200 font-medium text-stone-900'
+          : 'border-transparent text-stone-700 hover:bg-stone-100'
       }`}
     >
       <button
         type="button"
         onClick={onSelect}
         title={id}
-        className="min-w-0 flex-1 truncate px-3 py-2 text-left text-sm"
+        className="min-w-0 flex-1 cursor-pointer truncate px-3 py-2.5 text-left text-sm"
       >
         {id}
       </button>
@@ -44,7 +46,8 @@ export default function SidebarItem({ id, isActive, onSelect, onDelete }: Sideba
         type="button"
         onClick={onDelete}
         aria-label="Excluir conversa"
-        className="mr-1 shrink-0 rounded-md p-1.5 text-stone-400 hover:bg-stone-300 hover:text-red-600"
+        title="Excluir conversa"
+        className="mr-1 shrink-0 cursor-pointer rounded-md p-1.5 text-stone-400 transition-colors hover:bg-red-50 hover:text-red-600"
       >
         <TrashIcon />
       </button>

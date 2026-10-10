@@ -74,7 +74,7 @@ export default function ChatInput({ disabled = false }: ChatInputProps) {
             type="button"
             onClick={handleSend}
             disabled={!canSend}
-            className="rounded-lg bg-stone-800 px-4 py-2 text-white transition-opacity disabled:cursor-not-allowed disabled:opacity-40"
+            className="cursor-pointer rounded-lg bg-stone-800 px-4 py-2 text-white transition-colors hover:bg-stone-700 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:bg-stone-800"
           >
             Enviar
           </button>

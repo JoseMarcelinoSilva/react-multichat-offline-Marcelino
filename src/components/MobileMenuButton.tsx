@@ -10,7 +10,7 @@ export default function MobileMenuButton({ isOpen, onToggle }: MobileMenuButtonP
       onClick={onToggle}
       aria-label={isOpen ? 'Fechar menu' : 'Abrir menu'}
       aria-expanded={isOpen}
-      className="fixed top-3 left-3 z-50 rounded-lg bg-white p-2 text-stone-800 shadow-md md:hidden"
+      className="fixed top-3 left-3 z-50 cursor-pointer rounded-lg bg-white p-2 text-stone-800 shadow-md transition-colors hover:bg-stone-100 md:hidden"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
