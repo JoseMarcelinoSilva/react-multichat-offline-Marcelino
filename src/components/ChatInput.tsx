@@ -1,20 +1,22 @@
 import { useRef, useState } from 'react'
-import type { Sender } from '../types/message'
+import { useChatStore } from '../stores/chatStore'
 import SenderToggle from './SenderToggle'
 
 type ChatInputProps = {
-  sender: Sender
-  onToggleSender: () => void
-  onSend: (text: string) => void
+  disabled: boolean
 }
 
 const MAX_TEXTAREA_HEIGHT = 144
 
-export default function ChatInput({ sender, onToggleSender, onSend }: ChatInputProps) {
+export default function ChatInput({ disabled = false }: ChatInputProps) {
+  const sender = useChatStore((state) => state.sender)
+  const toggleSender = useChatStore((state) => state.toggleSender)
+  const addMessage = useChatStore((state) => state.addMessage)
+
   const [text, setText] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
-  const canSend = text.trim() !== ''
+  const canSend = !disabled && text.trim() !== ''
 
   function adjustTextareaHeight() {
     const textarea = textareaRef.current
@@ -34,7 +36,7 @@ export default function ChatInput({ sender, onToggleSender, onSend }: ChatInputP
 
   function handleSend() {
     if (!canSend) return
-    onSend(text)
+    addMessage(text)
     resetTextarea()
   }
 
@@ -49,13 +51,13 @@ export default function ChatInput({ sender, onToggleSender, onSend }: ChatInputP
 
   return (
     <div className="px-4 pb-4">
-      <div
-        className={`rounded-lg border-2 bg-white p-4 shadow-md transition-colors duration-200 ${
-          isUser ? 'border-stone-200' : 'border-purple-500'
-        }`}
+      <fieldset
+        disabled={disabled}
+        className={`min-w-0 rounded-lg border-2 bg-white p-4 shadow-md transition-colors duration-200 disabled:pointer-events-none disabled:opacity-50 ${isUser ? 'border-stone-200' : 'border-purple-500'
+          }`}
       >
         <div className="flex items-end gap-3">
-          <SenderToggle sender={sender} onToggle={onToggleSender} />
+          <SenderToggle sender={sender} onToggle={toggleSender} />
           <textarea
             ref={textareaRef}
             value={text}
@@ -77,7 +79,7 @@ export default function ChatInput({ sender, onToggleSender, onSend }: ChatInputP
             Enviar
           </button>
         </div>
-      </div>
+      </fieldset>
     </div>
   )
 }

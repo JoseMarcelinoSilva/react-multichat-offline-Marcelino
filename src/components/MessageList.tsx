@@ -3,7 +3,15 @@ import type { Message } from '../types/message'
 import MessageBubble from './MessageBubble'
 
 type MessageListProps = {
-  messages: Message[]
+  messages: Message[] | null
+}
+
+function EmptyState({ text }: { text: string }) {
+  return (
+    <div className="flex flex-1 items-center justify-center overflow-y-auto p-4 pb-6">
+      <p className="text-center text-stone-600">{text}</p>
+    </div>
+  )
 }
 
 export default function MessageList({ messages }: MessageListProps) {
@@ -13,12 +21,12 @@ export default function MessageList({ messages }: MessageListProps) {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [messages])
 
+  if (messages === null) {
+    return <EmptyState text="Crie ou selecione uma conversa" />
+  }
+
   if (messages.length === 0) {
-    return (
-      <div className="flex flex-1 items-center justify-center overflow-y-auto p-4 pb-6">
-        <p className="text-center text-stone-600">Nenhuma mensagem ainda. Envie a primeira!</p>
-      </div>
-    )
+    return <EmptyState text="Nenhuma mensagem ainda. Envie a primeira!" />
   }
 
   return (
