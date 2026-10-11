@@ -1,4 +1,5 @@
 import { create } from 'zustand'
+import { persist } from 'zustand/middleware'
 import type { Conversation } from '../types/conversation'
 import type { Message, Sender } from '../types/message'
 
@@ -13,63 +14,71 @@ type ChatState = {
   toggleSender: () => void
 }
 
-export const useChatStore = create<ChatState>((set, get) => ({
-  conversations: [],
-  activeConversationId: null,
-  sender: 'user',
+export const useChatStore = create<ChatState>()(
+  persist(
+    (set, get) => ({
+      conversations: [],
+      activeConversationId: null,
+      sender: 'user',
 
-  createConversation: () => {
-    const conversation: Conversation = {
-      id: crypto.randomUUID(),
-      messages: [],
-    }
+      createConversation: () => {
+        const conversation: Conversation = {
+          id: crypto.randomUUID(),
+          messages: [],
+        }
 
-    set({
-      conversations: [...get().conversations, conversation],
-      activeConversationId: conversation.id,
-    })
-  },
+        set({
+          conversations: [...get().conversations, conversation],
+          activeConversationId: conversation.id,
+        })
+      },
 
-  selectConversation: (id) => {
-    const exists = get().conversations.some((c) => c.id === id)
+      selectConversation: (id) => {
+        const exists = get().conversations.some((c) => c.id === id)
 
-    if (!exists) return
+        if (!exists) return
 
-    set({ activeConversationId: id })
-  },
+        set({ activeConversationId: id })
+      },
 
-  deleteConversation: (id) => {
-    const { conversations, activeConversationId } = get()
+      deleteConversation: (id) => {
+        const { conversations, activeConversationId } = get()
 
-    set({
-      conversations: conversations.filter((c) => c.id !== id),
-      activeConversationId:
-        activeConversationId === id ? null : activeConversationId,
-    })
-  },
+        set({
+          conversations: conversations.filter((c) => c.id !== id),
+          activeConversationId:
+            activeConversationId === id ? null : activeConversationId,
+        })
+      },
 
-  addMessage: (text) => {
-    const { conversations, activeConversationId, sender } = get()
-    const trimmedText = text.trim()
+      addMessage: (text) => {
+        const { conversations, activeConversationId, sender } = get()
+        const trimmedText = text.trim()
 
-    if (!activeConversationId || !trimmedText) return
+        if (!activeConversationId || !trimmedText) return
 
-    const message: Message = {
-      id: crypto.randomUUID(),
-      text: trimmedText,
-      sender,
-    }
+        const message: Message = {
+          id: crypto.randomUUID(),
+          text: trimmedText,
+          sender,
+        }
 
-    set({
-      conversations: conversations.map((c) =>
-        c.id === activeConversationId
-          ? { ...c, messages: [...c.messages, message] }
-          : c,
-      ),
-    })
-  },
+        set({
+          conversations: conversations.map((c) =>
+            c.id === activeConversationId
+              ? { ...c, messages: [...c.messages, message] }
+              : c,
+          ),
+        })
+      },
 
-  toggleSender: () => {
-    set({ sender: get().sender === 'user' ? 'robot' : 'user' })
-  },
-}))
+      toggleSender: () => {
+        set({ sender: get().sender === 'user' ? 'robot' : 'user' })
+      },
+    }),
+    {
+      name: 'chat-storage',
+      partialize: (state) => ({ conversations: state.conversations }),
+    },
+  ),
+)

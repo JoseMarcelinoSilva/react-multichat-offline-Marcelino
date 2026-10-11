@@ -435,17 +435,17 @@ sequenceDiagram
 
 ## 12. Critérios de aceite (checklist final)
 
-- [ ] Store Zustand em `src/stores/` com conversas, conversa ativa e sender global
-- [ ] Ao abrir o app: nenhuma conversa ativa, empty state *"Crie ou selecione uma conversa"*
-- [ ] Sidebar à esquerda com lista de conversas (ID visível), ordem antiga → recente
-- [ ] Botão criar conversa: gera UUID, adiciona à lista, seleciona automaticamente
-- [ ] Clique em conversa na lista a ativa e exibe seu histórico
-- [ ] Ícone excluir remove conversa; excluir a ativa volta ao empty state global
-- [ ] Históricos isolados por conversa
-- [ ] Toggle usuário/robô global persiste ao trocar de conversa
-- [ ] Input desabilitado (50% opacidade) sem conversa ativa
-- [ ] Comportamento de envio, bolhas, auto-scroll e atalhos inalterados com conversa ativa
-- [ ] Mobile: hamburger abre/fecha sidebar; fecha ao selecionar ou criar conversa
-- [ ] Layout desktop: sidebar + área de chat centralizada `max-w-2xl`
+- [x] Store Zustand em `src/stores/` com conversas, conversa ativa e sender global
+- [x] Ao abrir o app: nenhuma conversa ativa, empty state *"Crie ou selecione uma conversa"*
+- [x] Sidebar à esquerda com lista de conversas (ID visível), ordem antiga → recente
+- [x] Botão criar conversa: gera UUID, adiciona à lista, seleciona automaticamente
+- [x] Clique em conversa na lista a ativa e exibe seu histórico
+- [x] Ícone excluir remove conversa; excluir a ativa volta ao empty state global
+- [x] Históricos isolados por conversa
+- [x] Toggle usuário/robô global persiste ao trocar de conversa
+- [x] Input desabilitado (50% opacidade) sem conversa ativa
+- [x] Comportamento de envio, bolhas, auto-scroll e atalhos inalterados com conversa ativa
+- [x] Mobile: hamburger abre/fecha sidebar; fecha ao selecionar ou criar conversa
+- [x] Layout desktop: sidebar + área de chat centralizada `max-w-2xl`
 - [ ] Dados perdidos ao recarregar a página
-- [ ] `npm run build` e `npm run lint` sem erros
+- [x] `npm run build` e `npm run lint` sem erros
